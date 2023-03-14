@@ -3,47 +3,74 @@ import streamlit as st
 import pandas as pd
 
 # loading the trained model 
-pickle_in = open('regressor.pkl','rb')
-regressor = pickle.load(pickle_in)
-
-def prediction(Age,Sex,Smoking,Diabetes,Hypertension_treatment,HDL,TCL,SBP):
-    if Sex == 'Male':
-        Sex = 1
-    else:
-        Sex = 0
+# Global variables in bold
+model_pickle_file = open('regressor.pkl','rb')
+REGRESSOR_MODEL = pickle.load(model_pickle_file)
 
 
-    if Smoking == 'Yes':
-        Smoking = 1
-    else:
-        Smoking = 0
 
-    if Diabetes == 'Yes':
-        Diabetes = 1
-    else:
-        Diabetes = 0
+def prediction(age:int,
+               sex:str,
+               smoking:str,
+               diabetes:str,
+               ht_treatment:str,
+               hdl:int,
+               tcl:int,
+               sbp:int
+               )->str:
+    """This function does the following things:
+    1. Changes the categorical values to 1's and 0's.
+    2. Sends the user input values to gather the prediction.
+    3. 
 
-    if Hypertension_treatment == 'Yes':
-        Hypertension_treatment = 1
-    else:
-        Hypertension_treatment = 0
+    Parameters
+    ----------
+    age : int
+        input age.
+    sex : str
+        input sex.
+    smoking : str
+        input smoking status.
+    diabetes : str
+        input diabetes or not.
+    ht_treatment : str
+        input heart treatment taken or not .
+    hdl : int
+        input hdl level.
+    tcl : int
+        input tcl level.
+    sbp : int
+        input sbp level.
+
+    Returns
+    -------
+    str
+        Returns the prediction
+    """
+    sex = 1 if sex == 'Male' else 0 
+    smoking = 1 if smoking == 'Yes' else 0
+    diabetes = 1 if diabetes == 'Yes' else 0
+    ht_treatment = 1 if ht_treatment == 'Yes' else 0
 
     #making predictions
-    prediction = regressor.predict(
-        [[Age,Sex,Smoking,Diabetes,Hypertension_treatment,HDL,TCL,SBP]])
+    prediction = REGRESSOR_MODEL.predict(
+        [[age,sex,smoking,diabetes,ht_treatment,hdl,tcl,sbp]])
     print(prediction)
+
+    """Since the value that is returned is the prediction the below if else doesnt make sense."""
     if prediction >= 0.5:
         pred = 'High risk'
     else:
         pred = 'Low risk'
     return prediction
 
-# this is the main function in which we define our webpage  
-def main():       
-    st.header("Streamlit Riskscore prediction ML app")
-      
-    
 
+def render_prediction():
+    """
+    Contains streamlit design elements and calls the prediction function after gathering all the input from the user.
+    """
+
+    st.header("Streamlit Riskscore prediction ML app")
     # display the data
     st.subheader("Have a look at our dataset")
     data= pd.read_csv("dataset_savioroftheheart.csv")
@@ -65,7 +92,7 @@ def main():
 
 
 if __name__=="__main__":
-    main()
+    render_prediction()
 
 
 
