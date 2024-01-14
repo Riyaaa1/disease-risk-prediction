@@ -8,6 +8,7 @@ I explored the data structure and the contents. Pre-processing steps included di
 Link to notebook: [Heart Disease Risk Prediction notebook](https://github.com/Riyaaa1/disease-risk-prediction/blob/main/heart_risk_prediction.ipynb)
 
 Code for app: [Heart Disease Risk Predictor](https://github.com/Riyaaa1/disease-risk-prediction/blob/main/app/app.py)
+Here is the snippet of app:
 <br>
 <img height="500" src="https://github.com/Riyaaa1/disease-risk-prediction/blob/main/app/Screenshot%20from%202024-01-14%2014-29-38.png">
 <br>
